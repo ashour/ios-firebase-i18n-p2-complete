@@ -6,3 +6,5 @@
   Copyright © 2019 Mohammad Ashour. All rights reserved.
 */
 "expires" = "ينتهي %@";
+"today" = "اليوم";
+"tomorrow" = "غداً";

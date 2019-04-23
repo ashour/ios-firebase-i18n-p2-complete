@@ -18,11 +18,11 @@ func humanizeDate(date: Date?) -> String
         
         if calendar.isDateInToday(date)
         {
-            return "today"
+            return __("today")
         }
         else if calendar.isDateInTomorrow(date)
         {
-            return "tomorrow"
+            return __("tomorrow")
         }
         else if calendar.compare(
             date,
