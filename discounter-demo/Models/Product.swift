@@ -10,9 +10,13 @@ import Firebase
 
 class Product
 {
+    fileprivate static let COLLECTION_PATH = "product-feed-i18n/locales/{locale}"
+    
+    
     typealias OnProductsFetched = (_ products: [Product]) -> Void
     
     typealias Listener = ListenerRegistration
+    
     
                    var name: String
     
@@ -27,6 +31,7 @@ class Product
                 var expires: String
     
                var imageUrl: String
+    
     
     static func fetchFeed(onSuccess: @escaping OnProductsFetched)
     {
@@ -45,6 +50,7 @@ class Product
         }
     }
     
+    
     static func listenToFeed(onChange: @escaping OnProductsFetched)
         -> ListenerRegistration
     {
@@ -58,30 +64,38 @@ class Product
 
                 return
             }
-            
-            print("documents", documents)
 
             onChange(fromDB(documents: documents))
         }
     }
     
+    
     fileprivate static var collection: CollectionReference
     {
         get
         {
-            return DB.instance.collection("product-feed")
+            return DB.instance.collection(
+                COLLECTION_PATH.replacingOccurrences(
+                    of: "{locale}",
+                    with: Locale.current.languageCode!
+                )
+            )
         }
     }
    
-    fileprivate static func baseQuery() -> Query {
+    
+    fileprivate static func baseQuery() -> Query
+    {
         return collection.order(by: "expires")
     }
+    
     
     fileprivate static func fromDB(documents: [QueryDocumentSnapshot])
         -> [Product]
     {
         return documents.map { fromDB(data: $0.data()) }
     }
+    
     
     fileprivate static func fromDB(data: [String: Any]) -> Product
     {
@@ -103,6 +117,7 @@ class Product
             imageUrl: DB.convert(data, "imageUrl") ?? ""
         )
     }
+    
     
     init(              name: String,
                       store: String,

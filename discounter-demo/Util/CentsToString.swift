@@ -16,5 +16,7 @@ func centsToString(_ cents: Int) -> String
     
     formatter.numberStyle = .currency
     
+    formatter.currencyCode = "US$"
+    
     return formatter.string(from: NSNumber(value: dollars))!
 }
